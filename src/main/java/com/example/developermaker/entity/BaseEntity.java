@@ -20,4 +20,12 @@ public abstract class BaseEntity {
     @LastModifiedDate
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+                "createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }
