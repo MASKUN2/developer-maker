@@ -12,7 +12,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-
 @ToString(callSuper = true)
 @Getter
 public class DeveloperDto extends BaseDto{

@@ -5,6 +5,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.function.BiConsumer;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Table(name = "developer")
@@ -41,5 +46,17 @@ public class Developer extends BaseEntity {
                 ", type=" + type +
                 ", experienceYear=" + experienceYear +
                 "} " + super.toString();
+    }
+
+    public void partialUpdate(Map<String, Object> reqMap){
+        reqMap.forEach((key, value) -> {
+            try {
+                Field field = this.getClass().getDeclaredField(key);
+                field.setAccessible(true);
+                field.set(this, value);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
