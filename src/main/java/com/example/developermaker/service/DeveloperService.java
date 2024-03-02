@@ -2,6 +2,7 @@ package com.example.developermaker.service;
 
 import com.example.developermaker.dto.DeveloperDto;
 import com.example.developermaker.dto.request.DeveloperCreateRequest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
 public interface DeveloperService {
     void createDeveloper(DeveloperCreateRequest request);
 
-    List<DeveloperDto> getDeveloperAll();
+    Page<DeveloperDto> getDeveloperAll(int page, int size, String name);
 
     DeveloperDto getDeveloperOne(Long id);
 

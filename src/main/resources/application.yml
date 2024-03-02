@@ -5,11 +5,17 @@ server:
 spring:
   config:
     import: classpath:application-datasource.yml
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
 
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -23,3 +29,19 @@ logging:
     root: info
     org.springframework.web: debug
     com.example.developermaker: debug
+
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAT5AAGR6K2CJ6R4OG
+      secret-key: mDuH617wti+tc8jEYrVic4bbdNmHUOCYBzf0XUV5
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: mybucket-0302

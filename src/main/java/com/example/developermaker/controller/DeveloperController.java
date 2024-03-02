@@ -1,16 +1,16 @@
 package com.example.developermaker.controller;
 
+import com.example.developermaker.dto.DeveloperDto;
 import com.example.developermaker.dto.request.DeveloperCreateRequest;
 import com.example.developermaker.exception.NoSuchDataException;
 import com.example.developermaker.service.DeveloperService;
-import com.example.developermaker.service.DeveloperServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -20,8 +20,12 @@ import java.util.Map;
 public class DeveloperController {
     private final DeveloperService developerService;
     @GetMapping
-    public ResponseEntity<Object> getDeveloperAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(developerService.getDeveloperAll());
+    public ResponseEntity<Object> getDeveloperAll(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "name")String name) {
+        Page<DeveloperDto> developerDtoPage = developerService.getDeveloperAll(page, size, name);
+        return ResponseEntity.status(HttpStatus.OK).body(developerDtoPage);
     }
 
     @GetMapping("/{id}")

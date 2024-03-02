@@ -5,8 +5,13 @@ import com.example.developermaker.dto.request.DeveloperCreateRequest;
 import com.example.developermaker.entity.Developer;
 import com.example.developermaker.exception.NoSuchDataException;
 import com.example.developermaker.repository.DeveloperRepository;
+import com.example.developermaker.repository.DeveloperRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +24,7 @@ import java.util.Optional;
 @Service
 public class DeveloperServiceImpl implements DeveloperService{
     private final DeveloperRepository developerRepository;
+    private final DeveloperRepositoryCustom developerRepositoryCustom;
     @Override
     @Transactional
     public void createDeveloper(DeveloperCreateRequest request) {
@@ -29,12 +35,12 @@ public class DeveloperServiceImpl implements DeveloperService{
     }
 
     @Override
-    public List<DeveloperDto> getDeveloperAll() {
-        var developerDtoList = developerRepository.findAll().stream()
-                .map(DeveloperDto::from)
-                .toList();
-        log.info("developerDtoList = {}", developerDtoList);
-        return developerDtoList;
+    public Page<DeveloperDto> getDeveloperAll(int page, int size, String name) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<DeveloperDto> developerDtoPage = developerRepositoryCustom.findList(pageable, name).map(DeveloperDto::from);
+        log.info("developerDtoPage = {}", developerDtoPage);
+        return developerDtoPage;
     }
 
     @Override
